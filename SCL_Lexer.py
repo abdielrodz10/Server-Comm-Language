@@ -8,3 +8,7 @@ from ply.lex import TOKEN
 
 # TODO: Implement Tokens
 
+reserved = {}
+tokens = [] + list(reserved)
+
+lexer = lex.lex(reflags=re.UNICODE)
