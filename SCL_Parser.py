@@ -13,3 +13,8 @@ tokens = scl_lexer.tokens
 # called from ServerComm
 def get_yacc_parser():
     return yacc.yacc()
+
+def p_error(s):
+    parser.parse(s)
+
+parser = yacc.yacc()
