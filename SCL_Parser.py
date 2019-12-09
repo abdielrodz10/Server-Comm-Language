@@ -1,20 +1,34 @@
 # ServerCommLanguage (SCL) Parser
+import SCL_Lexer as lex
+from SCL_Methods import client_program
+from SCL_Methods import server_program
 
 import ply.yacc as yacc
 
-import SCL_Lexer as scl_lexer
+METHODS = ["openHost()", "openClient()"]
+class Parser():
+    def init(self,Methods):
+        self.methods = Methods
+
+
+
+
+
 
 # import tokens from lexer
-tokens = scl_lexer.tokens
+tokens = lex.lexer.expresions
 
 # TODO: Implement parsing rules
 
 
-# called from ServerComm
-def get_yacc_parser():
-    return yacc.yacc()
 
-def p_error(s):
-    parser.parse(s)
 
-parser = yacc.yacc()
+def methods(self):
+    for line in self.methods:
+        if line[0] == lex.lexer.METHOD:
+            if line[0] in METHODS:
+                if line[0] == "openHost()":
+                    server_program()
+                else:
+                    if line[0] == "openClient()":
+                        client_program()
