@@ -1,5 +1,5 @@
 # ServerCommLanguage (SCL) methods and logic
-import SCL_Parser as parser
+import SCL_Parser
 
 import socket
 # high level server operations
@@ -54,8 +54,5 @@ def client_program():
 
 
 def read_document(doc):
-    f = open(doc, 'test.txt')
-    for line in f:
-        parser.methods(line)
-
-    f.close()
+    for line in doc:
+        SCL_Parser.methods(line)

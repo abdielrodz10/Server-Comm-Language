@@ -12,6 +12,7 @@ try:
 except FileNotFoundError:
     print('Error reading file...')
 
+input_doc.close()
 # while True:
 #     try:
 #         user_in = input('SCL >>')

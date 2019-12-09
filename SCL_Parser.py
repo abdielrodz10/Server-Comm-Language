@@ -1,11 +1,11 @@
 # ServerCommLanguage (SCL) Parser
 import SCL_Lexer as lex
-from SCL_Methods import client_program
-from SCL_Methods import server_program
+from SCL_Methods import *
 
 import ply.yacc as yacc
 
 METHODS = ["openHost()", "openClient()"]
+
 class Parser():
     def init(self,Methods):
         self.methods = Methods
@@ -20,15 +20,13 @@ class Parser():
 
 # TODO: Implement parsing rules
 
-
-
-
-def methods(self):
-    for line in self.methods:
-        if line[0] == lex.lexer.METHOD:
-            if line[0] in METHODS:
-                if line[0] == "openHost()":
+def methods(line):
+        if line == lex.lexer.METHOD:
+            if line in METHODS:
+                if line == "openHost()":
+                    print('openhost()')
                     server_program()
                 else:
-                    if line[0] == "openClient()":
+                    if line == "openClient()":
+                        print('openhost()')
                         client_program()
