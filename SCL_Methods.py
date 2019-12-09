@@ -1,6 +1,6 @@
 # ServerCommLanguage (SCL) methods and logic
+import SCL_Parser as parser
 
-import SCL_Parser
 import socket
 # high level server operations
 # TODO: Implement logic
@@ -49,13 +49,13 @@ def client_program():
     client_socket.close()  # close the connection
 
 
-scl_parser = SCL_Parser.methods()
+# scl_parser = SCL_Parser.methods()
 # high level server operations
 
 
 def read_document(doc):
     f = open(doc, 'test.txt')
     for line in f:
-        scl_parser.p
+        parser.methods(line)
 
     f.close()

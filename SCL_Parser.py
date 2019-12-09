@@ -16,7 +16,7 @@ class Parser():
 
 
 # import tokens from lexer
-tokens = lex.lexer.expresions
+# tokens = lex.lexer.expresions
 
 # TODO: Implement parsing rules
 
