@@ -1,56 +1,68 @@
 # ServerCommLanguage (SCL) Lexer
-import sys
-import os
+import ply.lex as lex
+from ply.lex import TOKEN
 import re
-from tkinter import filedialog
-from tkinter import scrolledtext
-from tkinter import font
-from tkinter import *
+
+reserved = {
+    'METHOD_MAIN': ['openHost', 'openClient']
+}
+
+# tokens
+tokens = [
+    'INT',
+    'EQUALS', 'ID', 'DOT',
+    'COMMA', 'LP', 'RP', 'STRING',
+] + list(reserved)
 
 
-class lexer():
-    def init(self, characters):
-        self.characters = characters
-
-    HOSTNAME = 'HOSTNAME'
-    PORT = 'PORT'
-    METHOD = 'METHOD'
-    HOST = 'HOST'
-    CLIENT = 'CLIENT'
+reg_method_main = re.compile('|'.join(reserved['METHOD_MAIN']))
 
 
-    #expresions = [
-     #   (r'[A-Za-z]', HOSTNAME),
-     #   (r'[0-9]*',        PORT),
-       # (r'open',        METHOD),
-       # (r'close',       METHOD),
-       # (r'Host',          HOST),
-      #  (r'Client',      CLIENT),]
+@TOKEN(reg_method_main.pattern)
+def t_METHOD_MAIN(t):
+    return t
 
-def generate(self):
-    pos = 0
-    tokens = []
-    while pos< len(self.characters):
-        match = None
-        for expresion in self.expresions:
-            pattern, tag = expresion
-            regex = re.compile(pattern)
-            match = regex.match(self.characters, pos)
-            if match:
-                text = match.group(0)
-                if tag:
-                    token = (text, tag)
-                    tokens.append(token)
+# Generic Regular Expressions
 
-                break
+def t_INT(t):
+    r'-?\d+'
+    try:
+        t.value = int(t.value)
+    except ValueError:
+        print("Integer value too large %d", t.value)
+        t.value = 0
+    return t
 
-        if not match:
-            sys.stderr.write('Unknown character: %s\n' % self.characters[pos])
-            sys.exit(1)
-        else:
-            pos = match.end(0)
-    return tokens
+def t_STRING(t):
+    r'\"(.+?)\"'
+    return t
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = 'ID'
+    # t.type = reserved.get(t.value, 'ID')  # Check reserved words
+    return t
+
+# basic delimiters
+t_EQUALS = r'\='
+t_DOT = r'\.'
+t_COMMA = r'\,'
+t_LP = r'\('
+t_RP = r'\)'
+
+# ignored..
+t_ignore = " \t"
 
 
-def lex(self):
-        return self.generate()
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += t.value.count("\n")
+
+
+def t_error(t):
+    print("Illegal character '%s'" % t.value[0])
+    t.lexer.skip(1)
+
+
+# Lexer
+lexer = lex.lex(reflags=re.UNICODE)
