@@ -4,44 +4,65 @@ from ply.lex import TOKEN
 import re
 
 reserved = {
-    'METHOD_MAIN': ['openHost', 'openClient']
+    'OPERATION_0ARG': ['DELETE ALL', 'DISCONNECT ALL'],
+    'OPERATION_1ARG': ['DELETE', 'DISCONNECT'],
+    'OPERATION_2ARG': ['NEW SERVER', 'NEW CLIENT', 'CONNECT']
 }
 
 # tokens
 tokens = [
-    'INT',
-    'EQUALS', 'ID', 'DOT',
-    'COMMA', 'LP', 'RP', 'STRING',
+    'EQUALS', 'ID', 'DOT', 'IP',
+    'COMMA', 'LP', 'RP',
 ] + list(reserved)
 
 
-reg_method_main = re.compile('|'.join(reserved['METHOD_MAIN']))
+# custom methods regex
+operation_0arg = re.compile('|'.join(reserved['OPERATION_0ARG']))
+operation_1arg = re.compile('|'.join(reserved['OPERATION_1ARG']))
+operation_2arg = re.compile('|'.join(reserved['OPERATION_2ARG']))
 
 
-@TOKEN(reg_method_main.pattern)
-def t_METHOD_MAIN(t):
+# custom method tokens
+@TOKEN(operation_0arg.pattern)
+def t_OPERATION_0ARG(t):
     return t
 
-# Generic Regular Expressions
 
-def t_INT(t):
-    r'-?\d+'
-    try:
-        t.value = int(t.value)
-    except ValueError:
-        print("Integer value too large %d", t.value)
-        t.value = 0
+@TOKEN(operation_1arg.pattern)
+def t_OPERATION_1ARG(t):
     return t
 
-def t_STRING(t):
-    r'\"(.+?)\"'
+
+@TOKEN(operation_2arg.pattern)
+def t_OPERATION_2ARG(t):
     return t
+
+
+# general regex
+
+# def t_NUMBER(t):
+#     r'-?\d+'
+#     try:
+#         t.value = int(t.value)
+#     except ValueError:
+#         print("Integer value too large %d", t.value)
+#         t.value = 0
+#     return t
+
+def t_IP(t):
+    r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
+    return t
+
+# def t_STRING(t):
+#     r'\"(.+?)\"'
+#     return t
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = 'ID'
     # t.type = reserved.get(t.value, 'ID')  # Check reserved words
     return t
+
 
 # basic delimiters
 t_EQUALS = r'\='

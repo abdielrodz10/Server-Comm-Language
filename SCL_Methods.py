@@ -1,9 +1,8 @@
 # ServerCommLanguage (SCL) methods and logic
 import SCL_Parser
 
-import socket
-# high level server operations
-# TODO: Implement logic
+# import socket
+
 # def server_program():
 #     # get the hostname
 #     host = socket.gethostname()
