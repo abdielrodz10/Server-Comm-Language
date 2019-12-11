@@ -152,7 +152,6 @@ def p_empty(p):
 
 # parser error
 def p_error(p):
-    print(p)
     print("Syntax error")
 
 
