@@ -11,7 +11,7 @@ reserved = {
 
 # tokens
 tokens = [
-    'EQUALS', 'ID', 'DOT', 'IP',
+    'EQUALS', 'ID', 'DOT', 'IP', 'NUMBER',
     'COMMA', 'LP', 'RP',
 ] + list(reserved)
 
@@ -39,23 +39,19 @@ def t_OPERATION_2ARG(t):
 
 
 # general regex
-
-# def t_NUMBER(t):
-#     r'-?\d+'
-#     try:
-#         t.value = int(t.value)
-#     except ValueError:
-#         print("Integer value too large %d", t.value)
-#         t.value = 0
-#     return t
-
 def t_IP(t):
     r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
+    return t
+
+
+def t_NUMBER(t):
+    r'\d+'
     return t
 
 # def t_STRING(t):
 #     r'\"(.+?)\"'
 #     return t
+
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
