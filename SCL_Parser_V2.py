@@ -31,44 +31,105 @@ def p_operation(p):
                     '''
     p[0] = (p[1])
 
+
 def p_new_server(p):
     '''new_server : NEW SERVER empty
                     | NEW SERVER IP PORT
                     '''
-    print('new server...')
+
+    if p[3] is None:
+        n_server = Server()
+    else:
+        n_server = Server(p[3], p[4])
+
+    servers.append(n_server)
+
     p[0] = p[1]
 
+
 def p_new_client(p):
-    '''new_client : NEW CLIENT
+    '''new_client : NEW CLIENT empty
                     | NEW CLIENT IP PORT
                     '''
-    print('new client...')
+    if p[3] is None:
+        n_client = Client()
+    else:
+        n_client = Client(p[3], p[4])
+
+    clients.append(n_client)
+
     p[0] = p[1]
+
 
 def p_connect_to_server(p):
     '''connect_to_server : CONNECT CLIENT ID TO SERVER ID '''
     p[0] = p[1]
 
+
 def p_disconnect_client(p):
-    '''disconnect_client : DISCONNECT CLIENT ID '''
+    '''disconnect_client : DISCONNECT CLIENT IP '''
+    found = False
+
+    for c in clients:
+        if c.get_ip == p[3]:
+            c.disconnect()
+            found = True
+
+    if not found:
+        print('Client not found...')
+
     p[0] = p[1]
 
+
 def p_disconnect_server(p):
-    '''disconnect_server : DISCONNECT SERVER ID '''
+    '''disconnect_server : DISCONNECT SERVER IP '''
+
+    found = False
+
+    for s in servers:
+        if s.get_ip == p[3]:
+            s.disconnect()
+            found = True
+
+    if not found:
+        print('Server not found...')
+
     p[0] = p[1]
+
 
 def p_show_clients(p):
     '''show_clients : SHOW ALL CLIENTS '''
+
+    if len(clients) == 0:
+        print('No active clients...')
+    else:
+        print('Active Clients: ')
+        for c in clients:
+            print(c.get_ip())
+
     p[0] = p[1]
+
 
 def p_show_servers(p):
     '''show_servers : SHOW ALL SERVERS '''
+
+    if len(servers) == 0:
+        print('No active servers...')
+    else:
+        print('Active Servers: ')
+        for s in servers:
+            print(s.get_ip())
+
     p[0] = p[1]
+
 
 def p_remove(p):
     '''remove : REMOVE SERVER ID
                 | REMOVE CLIENT ID
                 '''
+
+    # TODO: Implement p_remove
+
     p[0] = p[1]
 
 

@@ -25,6 +25,7 @@ class Client:
 
     def disconnect(self):
         self.skt.close()
+        print('Disconnected client successfully!')
 
     # def send_message(self, payload):
     #     try:

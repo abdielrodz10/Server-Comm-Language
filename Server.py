@@ -1,4 +1,5 @@
 # Remote server class declaration
+import sys
 import socket
 
 
@@ -12,7 +13,18 @@ class Server:
         self.connected_clients = list()
         self.limit_simultaneous = 2
 
-        self.skt.bind((ip, int(port)))
+        try:
+            self.skt.bind((ip, int(port)))
+        except socket.error as msg:
+            print('Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1])
+            sys.exit()
+
+        print('Socket bind complete')
+
+        self.skt.listen(10)
+        print('Socket listening')
+
+        print('Server Listening on {}:{}'.format(self.ip, self.port))
 
     def get_ip(self):
         return self.ip
