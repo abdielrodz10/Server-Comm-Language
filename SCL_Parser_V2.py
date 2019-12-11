@@ -124,11 +124,22 @@ def p_show_servers(p):
 
 
 def p_remove(p):
-    '''remove : REMOVE SERVER ID
-                | REMOVE CLIENT ID
+    '''remove : REMOVE SERVER IP
+                | REMOVE CLIENT IP
                 '''
 
-    # TODO: Implement p_remove
+    if p[2] == 'Server':
+        for s in servers:
+            if s.get_ip() == p[3]:
+                s.disconnect()
+                servers.remove(s)
+                print('removed server')
+    else:
+        for c in clients:
+            if c.get_ip() == p[3]:
+                c.disconnect()
+                clients.remove(c)
+                print('removed client')
 
     p[0] = p[1]
 
