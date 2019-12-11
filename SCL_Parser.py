@@ -1,8 +1,9 @@
 # ServerCommLanguage (SCL) Parser
-import sys
-
 import ply.yacc as yacc
 import SCL_Lexer as scl_lex
+
+from Client import *
+from Server import *
 
 tokens = scl_lex.tokens
 
@@ -55,25 +56,18 @@ def p_operation_1arg(p):
         # TODO Implement Op
         print('not implemented...')
 
-    print(p[0])
-
 
 # operations w/ two arguments
 def p_operation_2arg(p):
-    '''operation_2arg : OPERATION_2ARG ID IP '''
+    '''operation_2arg : OPERATION_2ARG IP NUMBER '''
     p[0] = (p[1], p[2], p[3])
 
     if p[1] == 'NEW SERVER':
-        # TODO: Implement Op
-        # s = Server(p[2], p[3])
-        # servers.append(s)
-        print('not implemented..')
-        servers.append(p[0])
+        new_s = Server(p[2], p[3])
+        servers.append(new_s)
     elif p[1] == 'NEW CLIENT':
-        # TODO: Implement Op
-        # c = Client(p[2], p[3])
-        # clients.append(c)
-        print('not implemented..')
+        new_c = Client(p[2], p[3])
+        clients.append(new_c)
 
     print(p[0])
 

@@ -1,7 +1,7 @@
 # Main Language File
 
-import SCL_Parser
-scl_parser = SCL_Parser.parser()
+import SCL_Parser_V2
+scl_parser = SCL_Parser_V2.parser()
 
 # import SCL_Methods
 #

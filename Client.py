@@ -1,20 +1,36 @@
+# Local client class declaration
 import socket
-# TODO: Implement
-def client_program():
-    host = socket.gethostname()  # as both code is running on same pc
-    port = 5000  # socket server port number
 
-    client_socket = socket.socket()  # instantiate
-    client_socket.connect((host, port))  # connect to the server
 
-    message = input(" -> ")  # take input
+class Client:
+    def __init__(self, ip='localhost', port='4444'):
+        self.skt = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.ip = ip
+        self.port = port
 
-    while message.lower().strip() != 'close':
-        client_socket.send(message.encode())  # send message
-        data = client_socket.recv(1024).decode()  # receive response
+        self.connect(ip, int(port))
 
-        print('Received from server: ' + data)  # show in terminal
+    def get_ip(self):
+        return self.ip
 
-        message = input(" -> ")  # again take input
+    def get_port(self):
+        return self.port
 
-    client_socket.close()  # close the connection
+    def connect(self, ip, port):
+        try:
+            self.skt.connect((ip, int(port)))
+            print("Client connected successfully!")
+        except:
+            print("Error establishing connection to server...")
+
+    def disconnect(self):
+        self.skt.close()
+        print('Disconnected client successfully!')
+
+    # def send_message(self, payload):
+    #     try:
+    #         self.skt.send(payload)
+    #         print("Message sent!")
+    #     except:
+    #         print("Could not send message...")
+
